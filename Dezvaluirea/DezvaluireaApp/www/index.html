@@ -1,29 +1,206 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
 <html>
-    <head>
+<head>
     <!--
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>DezvaluireaApp</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!--<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">-->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>DezvaluireaApp</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' href='https://storage.googleapis.com/code.getmdl.io/1.0.4/material.indigo-pink.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Search -->
+
+                <form action="">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                        <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                            <i class="material-icons">search</i>
+                        </label>
+                        <div class="mdl-textfield__expandable-holder">
+                            <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image" width="250">
+        </header>
+    </div>
+
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Home</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="./index.inside.html">Actiune</a>
+            <a class="mdl-navigation__link" href="">Drama</a>
+            <a class="mdl-navigation__link" href="">Horror</a>
+            <a class="mdl-navigation__link" href="">Food</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <!------BOX---->
+
+        <div id="page">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px">Title 1</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.And I am simply typing some random text to fill in this box.And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box. <i><a href"#"> See more</a></i>
+                    </p>
+                </div>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-        <script type="text/javascript" src="scripts/index.js"></script>
-    </body>
+
+        <div id="page1">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 2</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page2">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 3</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box..
+                        ndom text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page3">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 4</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page4">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 5</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="page5">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 6</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="page6">
+            <div class="container">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <img id="img_container" src="https://www.gannett-cdn.com/-mm-/45747df85c6f9ffc4fcc19ff2d18b9a18eada629/c=0-77-5177-3002/local/-/media/2015/08/05/USATODAY/USATODAY/635743782852255889-IMG-1756.JPG?width=1600&height=800&fit=crop" width="230">
+                <div class="body">
+                    <p>
+                        <span style="font-size: 40px;">Title 7</span>
+                        <br>And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.
+                        And I am simply typing some random text to fill in this box.<i><a href"#">See more</a></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!----endbox--->
+
+
+    <script src='https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <footer></footer>
+</body>
 </html>
