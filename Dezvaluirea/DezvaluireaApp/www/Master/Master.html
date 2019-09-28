@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DezvaluireaApp</title>
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' http://* data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline' http://*; media-src *; img-src *">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1">
+
+    <script src="CordovaScripts/platformOverrides.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cinzel&display=swap">
+    <link rel='stylesheet' href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.indigo-pink.min.css">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="Master.css">
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Search -->
+
+                <form action="">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                        <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                            <i class="material-icons">search</i>
+                        </label>
+                        <div class="mdl-textfield__expandable-holder">
+                            <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
+        </header>
+    </div>
+
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Home</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="inside_article/index.html">Actiune</a>
+            <a class="mdl-navigation__link" href="">Drama</a>
+            <a class="mdl-navigation__link" href="">Horror</a>
+            <a class="mdl-navigation__link" href="">Food</a>
+        </nav>
+    </div>
+</body>
+
+</html>
