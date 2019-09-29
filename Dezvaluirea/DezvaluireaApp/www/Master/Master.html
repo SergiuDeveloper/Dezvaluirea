@@ -4,8 +4,8 @@
 <head>
     <title>DezvaluireaApp</title>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/; font-src 'self' http://* data: gap: https://ssl.gstatic.com 'unsafe-eval';
-          style-src 'self' 'unsafe-inline' http://*; media-src *; img-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/ https://maxcdn.bootstrapcdn.com/bootstrap/ https://storage.googleapis.com/code.getmdl.io/;
+          font-src 'self' http://* data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline' http://*; media-src *; img-src *">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="CordovaScripts/platformOverrides.js"></script>
 
     <link rel="stylesheet" href="Master.css">
@@ -49,13 +51,13 @@
             </div>
 
             <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
-        </header>
-    </div>
 
-    <div class="mdl-layout__drawer">
-        <nav id="categoryLinksLister" class="mdl-navigation">
-            <!-- Category links -->
-        </nav>
+            <div class="mdl-layout__drawer">
+                <nav id="categoryLinksLister" class="mdl-navigation">
+                    <!-- Category links -->
+                </nav>
+            </div>
+        </header>
     </div>
 
     <main id="articlePreviewsLister" class="mdl-layout__content">
