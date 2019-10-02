@@ -6,7 +6,7 @@ class GlobalVariables {
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
 
-    static ArticlesToTakeCount = 5;
+    static ArticlesToTakeCount = 10;
     static ArticlesToSkipCount = 0;
 
     static MaximumArticlePreviewTitleLength = 100;
@@ -52,8 +52,15 @@ class EndPointsHandler {
 class CategoryListerBinder {
     static async Populate() {
         var categoryLinkTemplate = await ControlsBinder.GetControlTemplate('CategoryLink');
+        if (categoryLinkTemplate == null || categoryLinkTemplate == undefined)
+            return;
+
         var categoriesArrayObject = await EndPointsHandler.Get('Categories');
+        if (categoriesArrayObject == null || categoriesArrayObject == undefined)
+            return;
         var categoriesArray = categoriesArrayObject.CategoriesArray;
+        if (categoriesArray == null || categoriesArray == undefined)
+            return;
 
         var categoryLinksListerInnerHTML = '';
 
@@ -77,6 +84,8 @@ class CategoryListerBinder {
 class ArticlePreviewListerBinder {
     static async Populate(categoryID, articlesToSkipCount, articlesToTakeCount) {
         var articlePreviewLinkTemplate = await ControlsBinder.GetControlTemplate('ArticlePreview');
+        if (articlePreviewLinkTemplate == null || articlePreviewLinkTemplate == undefined)
+            return;
 
         var articlePreviewsHTTPGetParameters = {
             CategoryID: categoryID,
@@ -84,7 +93,12 @@ class ArticlePreviewListerBinder {
             ArticlesToTakeCount: articlesToTakeCount
         };
         var articlePreviewsArrayObject = await EndPointsHandler.Get('ArticlePreviews', articlePreviewsHTTPGetParameters);
+        if (articlePreviewsArrayObject == null || articlePreviewsArrayObject == undefined)
+            return;
+
         var articlePreviewsArray = articlePreviewsArrayObject.ArticlePreviewsArray;
+        if (articlePreviewsArray == null || articlePreviewsArray == undefined)
+            return;
 
         var articlePreviewsListerInnerHTML = '';
 
@@ -123,10 +137,8 @@ async function onDeviceReady() {
 
     var categoryID = window.localStorage.getItem(GlobalVariables.CategoryIDStorageVariableName);
 
-    if (categoryID == null || categoryID == '')
-        ArticlePreviewListerBinder.Populate(GlobalVariables.DefaultCategoryID, GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
-    else
-        ArticlePreviewListerBinder.Populate(parseInt(categoryID), GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
+    var isStartingPage = (categoryID == null || categoryID == '');
+    ArticlePreviewListerBinder.Populate(isStartingPage ? GlobalVariables.DefaultCategoryID : parseInt(categoryID), GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
 
     window.localStorage.removeItem(GlobalVariables.CategoryIDStorageVariableName);
 }

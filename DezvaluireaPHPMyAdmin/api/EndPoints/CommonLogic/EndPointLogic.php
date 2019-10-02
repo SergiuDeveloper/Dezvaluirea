@@ -15,14 +15,8 @@ error_reporting(0);
 foreach ($_GET as $urlParameterKey => $urlParameterValue) {
 	$isValidParameter = TRUE;
 	
-	$parameterStringValue = $urlParameterValue;
-	$parameterIntValue = intval($parameterStringValue);
-	
-	if ($parameterIntValue < 0)
-		$isValidParameter = FALSE;
-	
-	if (strval($parameterIntValue) != $parameterStringValue)
-		$isValidParameter = FALSE;
+	$urlParameterValueCopy = str_replace(' ', '', $urlParameterValue);
+	$isValidParameter = ctype_alnum($urlParameterValueCopy);
 	
 	if (!$isValidParameter)
 	{
