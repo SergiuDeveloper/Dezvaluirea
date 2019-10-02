@@ -13,6 +13,11 @@ a {
     /*#5c9ca4*/
 }
 
+span {
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .mdl-layout__header {
     transition-property: max-height,box-shadow,background;
 }
