@@ -15,18 +15,10 @@ class GlobalVariables {
 
 class ControlsBinder {
     static async GetControlTemplate(controlName) {
-        var controlHTMLContent;
+        var templateHTMLControl = $(document.createElement('div'));
+        templateHTMLControl.load('../PageControls/' + controlName + '.html');
 
-        await $.ajax({
-            url: '../PageControls/' + controlName + '.html',
-            type: 'GET'
-        }).done(function (retrievedData) {
-            controlHTMLContent = retrievedData;
-        }).fail(function () {
-            controlHTMLContent = null;
-        });
-
-        return controlHTMLContent;
+        return templateHTMLControl;
     }
 }
 
@@ -51,8 +43,8 @@ class EndPointsHandler {
 
 class CategoryListerBinder {
     static async Populate() {
-        var categoryLinkTemplate = await ControlsBinder.GetControlTemplate('CategoryLink');
-        if (categoryLinkTemplate == null || categoryLinkTemplate == undefined)
+        var templateHTMLControl = (await ControlsBinder.GetControlTemplate('CategoryLink'))[0];
+        if (templateHTMLControl == null || templateHTMLControl == undefined)
             return;
 
         var categoriesArrayObject = await EndPointsHandler.Get('Categories');
@@ -62,29 +54,26 @@ class CategoryListerBinder {
         if (categoriesArray == null || categoriesArray == undefined)
             return;
 
-        var categoryLinksListerInnerHTML = '';
-
-        var populatedCategoryLinkTemplate;
+        var populatedHTMLControl;
         categoriesArray.forEach(function (categoryIterator) {
-            populatedCategoryLinkTemplate = categoryLinkTemplate;
+            populatedHTMLControl = document.createElement('div');
+            populatedHTMLControl.innerHTML = templateHTMLControl.innerHTML;
 
-            populatedCategoryLinkTemplate = populatedCategoryLinkTemplate.replace('{ID}', categoryIterator.ID);
-            populatedCategoryLinkTemplate = populatedCategoryLinkTemplate.replace('{Name}', categoryIterator.Name);
+            populatedHTMLControl.getElementsByClassName('categoryURL')[0].textContent = categoryIterator.Name;
+            populatedHTMLControl.getElementsByClassName('categoryURL')[0].setAttribute('data-categoryid', categoryIterator.ID);
 
-            categoryLinksListerInnerHTML += populatedCategoryLinkTemplate + '<br>';
+            $('#categoryLinksLister').append(populatedHTMLControl);
 
             if (categoryIterator.Name == GlobalVariables.DefaultCategoryName)
                 GlobalVariables.DefaultCategoryID = categoryIterator.ID;
         });
-
-        categoryLinksLister.innerHTML = categoryLinksListerInnerHTML;
     }
 }
 
 class ArticlePreviewListerBinder {
     static async Populate(categoryID, articlesToSkipCount, articlesToTakeCount) {
-        var articlePreviewLinkTemplate = await ControlsBinder.GetControlTemplate('ArticlePreview');
-        if (articlePreviewLinkTemplate == null || articlePreviewLinkTemplate == undefined)
+        var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
+        if (templateHTMLControl == null || templateHTMLControl == undefined)
             return;
 
         var articlePreviewsHTTPGetParameters = {
@@ -102,31 +91,32 @@ class ArticlePreviewListerBinder {
 
         var articlePreviewsListerInnerHTML = '';
 
-        var populatedArticlePreviewLinkTemplate;
-        articlePreviewsArray.forEach(function (categoryIterator) {
-            categoryIterator.Title = ArticlePreviewListerBinder.ValidateArticleTextField(categoryIterator.Title, GlobalVariables.MaximumArticlePreviewTitleLength);
-            categoryIterator.Content = ArticlePreviewListerBinder.ValidateArticleTextField(categoryIterator.Content, GlobalVariables.MaximumArticlePreviewTextContentLength);
+        var populatedHTMLControl;
+        articlePreviewsArray.forEach(function (articlePreviewsIterator) {
+            articlePreviewsIterator.Title = ArticlePreviewListerBinder.ValidateArticleTextField(articlePreviewsIterator.Title, GlobalVariables.MaximumArticlePreviewTitleLength);
+            articlePreviewsIterator.Content = ArticlePreviewListerBinder.ValidateArticleTextField(articlePreviewsIterator.Content, GlobalVariables.MaximumArticlePreviewTextContentLength);
 
-            populatedArticlePreviewLinkTemplate = articlePreviewLinkTemplate;
+            populatedHTMLControl = document.createElement('div');
+            populatedHTMLControl.innerHTML = templateHTMLControl.innerHTML;
 
-            populatedArticlePreviewLinkTemplate = populatedArticlePreviewLinkTemplate.replace('{Title}', categoryIterator.Title);
-            populatedArticlePreviewLinkTemplate = populatedArticlePreviewLinkTemplate.replace('{ThumbnailURL}', categoryIterator.ThumbnailURL);
-            populatedArticlePreviewLinkTemplate = populatedArticlePreviewLinkTemplate.replace('{Content}', categoryIterator.Content);
-            populatedArticlePreviewLinkTemplate = populatedArticlePreviewLinkTemplate.replace('{ID}', categoryIterator.ID);
+            populatedHTMLControl.getElementsByClassName('articlePreviewTitle')[0].textContent = articlePreviewsIterator.Title;
+            populatedHTMLControl.getElementsByClassName('articlePreviewThumbnail')[0].src = articlePreviewsIterator.ThumbnailURL;
+            populatedHTMLControl.getElementsByClassName('articlePreviewContent')[0].textContent = articlePreviewsIterator.Content;
+            populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].setAttribute('data-articleid', articlePreviewsIterator.ID);
 
-            articlePreviewsListerInnerHTML += populatedArticlePreviewLinkTemplate + '<br>';
+            $('#articlePreviewsLister').append($(populatedHTMLControl));
         });
-
-        articlePreviewsLister.innerHTML = articlePreviewsListerInnerHTML;
     }
 
     static ValidateArticleTextField(articleTextField, maximumTextFieldLength) {
-        if (articleTextField.length > maximumTextFieldLength)
-            articleTextField = articleTextField.substring(0, maximumTextFieldLength);
-
         var auxiliaryHTMLElement = document.createElement("div");
         auxiliaryHTMLElement.innerHTML = articleTextField;
         articleTextField = auxiliaryHTMLElement.innerText;
+
+        if (articleTextField.length > maximumTextFieldLength) {
+            articleTextField = articleTextField.substring(0, maximumTextFieldLength);
+            articleTextField += '...';
+        }
 
         return articleTextField;
     }
