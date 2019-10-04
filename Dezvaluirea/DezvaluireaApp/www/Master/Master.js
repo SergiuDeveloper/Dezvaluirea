@@ -5,6 +5,7 @@ class GlobalVariables {
 
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
+    static ForbiddenCategoryName = 'Uncategorized'
 
     static ArticlesToTakeCount = 10;
     static ArticlesToSkipCount = 0;
@@ -54,8 +55,13 @@ class CategoryListerBinder {
         if (categoriesArray == null || categoriesArray == undefined)
             return;
 
+        categoriesArray = CategoryListerBinder.ValidateCategoriesArray(categoriesArray);
+
         var populatedHTMLControl;
         categoriesArray.forEach(function (categoryIterator) {
+            if (categoryIterator.Name == GlobalVariables.ForbiddenCategoryName)
+                return; //  continue with the next forEach iteration
+
             populatedHTMLControl = document.createElement('div');
             populatedHTMLControl.innerHTML = templateHTMLControl.innerHTML;
 
@@ -67,6 +73,22 @@ class CategoryListerBinder {
             if (categoryIterator.Name == GlobalVariables.DefaultCategoryName)
                 GlobalVariables.DefaultCategoryID = categoryIterator.ID;
         });
+    }
+
+    static ValidateCategoriesArray(categoriesArray) {
+        var defaultCategoryIndex = categoriesArray.findIndex(x => x.Name == GlobalVariables.DefaultCategoryName);
+        if (defaultCategoryIndex != -1) {
+            var swapVariable = categoriesArray[0];
+
+            categoriesArray[0] = categoriesArray[defaultCategoryIndex];
+            categoriesArray[defaultCategoryIndex] = swapVariable;
+        }
+
+        var forbiddenCategoryIndex = categoriesArray.findIndex(x => x.Name == GlobalVariables.ForbiddenCategoryName);
+        if (forbiddenCategoryIndex != -1)
+            categoriesArray.splice(forbiddenCategoryIndex, 1);
+
+        return categoriesArray;
     }
 }
 

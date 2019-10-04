@@ -3,7 +3,7 @@
 
 <head>
     <title>DezvaluireaApp</title>
-    <!---->
+
     <meta http-equiv="Content-Security-Policy" content="default-src *; script-src *; font-src * data: gap: *; style-src 'unsafe-inline' *; media-src *; img-src *">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
@@ -32,49 +32,40 @@
 
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
-            <div class="mdl-layout__header-row">
-                <!-- Title -->
-                <span class="mdl-layout-title"></span>
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
-                <!-- Search -->
+            <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title"></span>
+                    <!-- Add spacer, to align navigation to the right -->
+                    <div class="mdl-layout-spacer"></div>
+                    <!-- Search -->
 
-                <form action="">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
-                        <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                            <i class="material-icons">search</i>
-                        </label>
-                        <div class="mdl-textfield__expandable-holder">
-                            <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
+                    <form action="">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                                <i class="material-icons">search</i>
+                            </label>
+                            <div class="mdl-textfield__expandable-holder">
+                                <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
 
-            <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
-
-        </header>
+                <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
+            </header>
   
-    <main id="articlePreviewsLister" class="mdl-layout__content">
-      
-        <!-- Article previews -->
-    </main>
+        <main id="articlePreviewsLister" class="mdl-layout__content">
+            <!-- Article previews -->
+        </main>
 
-    <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Home</span>
-        <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="">Actiune</a>
-            <a class="mdl-navigation__link" href="">Drama</a>
-            <a class="mdl-navigation__link" href="">Horror</a>
-            <a class="mdl-navigation__link" href="">Food</a>
-        </nav>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Categorii</span>
+            <nav id="categoryLinksLister" class="mdl-navigation">
+                <!-- Article categories -->
+            </nav>
+        </div>
     </div>
-    <main class="mdl-layout__content">
-
-
-
-
 </body>
 
 </html>
