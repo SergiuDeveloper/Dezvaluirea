@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
     <title>DezvaluireaApp</title>
 
@@ -21,51 +20,49 @@
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-
     <script src="CordovaScripts/platformOverrides.js"></script>
     <script src="../cordova.js"></script>
 
     <link rel="stylesheet" href="Master.css">
 
+    <script src="Scripts/MasterLogic.js"></script>
+    <script src="Scripts/ArticlePreviewsPageLogic.js"></script>
     <script src="Master.js"></script>
 </head>
 
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
-                <div class="mdl-layout__header-row">
-                    <!-- Title -->
-                    <span class="mdl-layout-title"></span>
-                    <!-- Add spacer, to align navigation to the right -->
-                    <div class="mdl-layout-spacer"></div>
-                    <!-- Search -->
+        <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Search -->
 
-                    <form action="">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
-                            <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-                                <i class="material-icons">search</i>
-                            </label>
-                            <div class="mdl-textfield__expandable-holder">
-                                <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
-                            </div>
+                <form action="">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                        <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                            <i class="material-icons">search</i>
+                        </label>
+                        <div class="mdl-textfield__expandable-holder">
+                            <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
-                <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
-            </header>
-  
-        <main id="articlePreviewsLister" class="mdl-layout__content">
-            <!-- Article previews -->
-        </main>
+            <img src="https://i.ibb.co/3Rg4zDd/banner.png" class="img-responsive" alt="Responsive image">
+        </header>
 
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Categorii</span>
             <nav id="categoryLinksLister" class="mdl-navigation">
-                <!-- Article categories -->
             </nav>
         </div>
+
+        <main id="contentPlaceholder" class="mdl-layout__content">
+        </main>
     </div>
 </body>
-
 </html>
