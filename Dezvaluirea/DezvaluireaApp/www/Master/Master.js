@@ -1,8 +1,6 @@
 ﻿"use strict";
 
 class GlobalVariables {
-    static CategoryIDStorageVariableName = 'CategoryID';
-
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
     static ForbiddenCategoryName = 'Uncategorized'
@@ -146,13 +144,7 @@ class ArticlePreviewListerBinder {
 
 async function onDeviceReady() {
     await CategoryListerBinder.Populate();
-
-    var categoryID = window.localStorage.getItem(GlobalVariables.CategoryIDStorageVariableName);
-
-    var isStartingPage = (categoryID == null || categoryID == '');
-    ArticlePreviewListerBinder.Populate(isStartingPage ? GlobalVariables.DefaultCategoryID : parseInt(categoryID), GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
-
-    window.localStorage.removeItem(GlobalVariables.CategoryIDStorageVariableName);
+    ArticlePreviewListerBinder.Populate(GlobalVariables.DefaultCategoryID, GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
 }
 
 document.addEventListener('deviceready', onDeviceReady, false);
