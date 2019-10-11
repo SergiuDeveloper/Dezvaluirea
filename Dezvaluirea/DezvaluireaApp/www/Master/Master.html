@@ -3,7 +3,7 @@
 <head>
     <title>DezvaluireaApp</title>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src *; font-src * data: gap: *; style-src 'unsafe-inline' *; media-src *; img-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'unsafe-inline' *; font-src * data: gap: *; style-src 'unsafe-inline' *; media-src *; img-src *">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -27,6 +27,7 @@
 
     <script src="Scripts/MasterLogic.js"></script>
     <script src="Scripts/ArticlePreviewsPageLogic.js"></script>
+    <script src="Scripts/ArticlePageLogic.js"></script>
     <script src="Master.js"></script>
 </head>
 
@@ -60,6 +61,8 @@
             <nav id="categoryLinksLister" class="mdl-navigation">
             </nav>
         </div>
+
+        <label id="categoryName"></label>
 
         <main id="contentPlaceholder" class="mdl-layout__content">
         </main>

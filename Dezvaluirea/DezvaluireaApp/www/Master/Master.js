@@ -1,3 +1,6 @@
 ﻿"use strict";
 
-document.addEventListener('deviceready', MasterLogic.OnDeviceReady);
+document.addEventListener('deviceready', async function () {
+    await CategoryListerBinder.Populate();
+    ArticlePreviewListerBinder.Populate(GlobalVariables.DefaultCategoryID, GlobalVariables.DefaultCategoryName);
+});

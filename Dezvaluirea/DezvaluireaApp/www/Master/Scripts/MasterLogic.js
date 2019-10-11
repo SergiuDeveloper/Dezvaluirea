@@ -1,13 +1,24 @@
-﻿class GlobalVariables {
+﻿"use strict";
+
+class GlobalVariables {
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
-    static ForbiddenCategoryName = 'Uncategorized'
+    static ForbiddenCategoryName = 'Uncategorized';
+    static CurrentCategoryName;
 
     static ArticlesToTakeCount = 10;
     static ArticlesToSkipCount = 0;
 
     static MaximumArticlePreviewTitleLength = 100;
     static MaximumArticlePreviewTextContentLength = 300;
+}
+
+class PageInitialization {
+    static ClearPageContent(pageContentControl) {
+        pageContentControl.innerHTML = '';
+
+        return pageContentControl;
+    }
 }
 
 class ControlsBinder {
@@ -40,6 +51,8 @@ class EndPointsHandler {
 
 class CategoryListerBinder {
     static async Populate() {
+        $('#categoryLinksLister').innerHTML = '';
+
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('CategoryLink'))[0];
         if (templateHTMLControl == null || templateHTMLControl == undefined)
             return;
@@ -53,18 +66,18 @@ class CategoryListerBinder {
 
         categoriesArray = CategoryListerBinder.ValidateCategoriesArray(categoriesArray);
 
+        GlobalVariables.DefaultCategoryID = CategoryListerBinder.GetDefaultCategoryID(categoriesArray);
+
         var populatedHTMLControl;
         categoriesArray.forEach(function (categoryIterator) {
             populatedHTMLControl = document.createElement('div');
             populatedHTMLControl.innerHTML = templateHTMLControl.innerHTML;
 
             populatedHTMLControl.getElementsByClassName('categoryURL')[0].textContent = categoryIterator.Name;
-            populatedHTMLControl.getElementsByClassName('categoryURL')[0].setAttribute('data-categoryid', categoryIterator.ID);
+            populatedHTMLControl.getElementsByClassName('categoryURL')[0].href =
+                populatedHTMLControl.getElementsByClassName('categoryURL')[0].href.replace('{CategoryID}', categoryIterator.ID).replace('{CategoryName}', categoryIterator.Name);
 
             $('#categoryLinksLister').append(populatedHTMLControl);
-
-            if (categoryIterator.Name == GlobalVariables.DefaultCategoryName)
-                GlobalVariables.DefaultCategoryID = categoryIterator.ID;
         });
     }
 
@@ -83,11 +96,12 @@ class CategoryListerBinder {
 
         return categoriesArray;
     }
-}
 
-class MasterLogic {
-    static async OnDeviceReady() {
-        await CategoryListerBinder.Populate();
-        ArticlePreviewListerBinder.Populate(GlobalVariables.DefaultCategoryID, GlobalVariables.ArticlesToSkipCount, GlobalVariables.ArticlesToTakeCount);
+    static GetDefaultCategoryID(categoriesArray) {
+        var defaultCategoryIndex = categoriesArray.findIndex(x => x.Name == GlobalVariables.DefaultCategoryName);
+        if (defaultCategoryIndex == -1)
+            return null;
+
+        return categoriesArray[defaultCategoryIndex].ID;
     }
 }

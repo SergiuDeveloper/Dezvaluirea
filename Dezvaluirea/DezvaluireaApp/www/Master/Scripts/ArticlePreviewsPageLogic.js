@@ -1,13 +1,23 @@
-﻿class ArticlePreviewListerBinder {
-    static async Populate(categoryID, articlesToSkipCount, articlesToTakeCount) {
+﻿"use strict";
+
+class ArticlePreviewListerBinder {
+    static async Populate(categoryID, categoryName) {
+        if (categoryName == GlobalVariables.CurrentCategoryName)
+            return;
+        GlobalVariables.CurrentCategoryName = categoryName;
+        GlobalVariables.ArticlesToSkipCount = 0;
+
+        $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
+        $('#categoryName')[0].textContent = categoryName;
+
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
         if (templateHTMLControl == null || templateHTMLControl == undefined)
             return;
 
         var articlePreviewsHTTPGetParameters = {
             CategoryID: categoryID,
-            ArticlesToSkipCount: articlesToSkipCount,
-            ArticlesToTakeCount: articlesToTakeCount
+            ArticlesToSkipCount: GlobalVariables.ArticlesToSkipCount,
+            ArticlesToTakeCount: GlobalVariables.ArticlesToTakeCount
         };
         var articlePreviewsArrayObject = await EndPointsHandler.Get('ArticlePreviews', articlePreviewsHTTPGetParameters);
         if (articlePreviewsArrayObject == null || articlePreviewsArrayObject == undefined)
@@ -30,9 +40,12 @@
             populatedHTMLControl.getElementsByClassName('articlePreviewTitle')[0].textContent = articlePreviewsIterator.Title;
             populatedHTMLControl.getElementsByClassName('articlePreviewThumbnail')[0].src = articlePreviewsIterator.ThumbnailURL;
             populatedHTMLControl.getElementsByClassName('articlePreviewContent')[0].textContent = articlePreviewsIterator.Content;
-            populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].setAttribute('data-articleid', articlePreviewsIterator.ID);
+            populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].href =
+                populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].href.replace('{ArticleID}', articlePreviewsIterator.ID);
 
             $('#contentPlaceholder').append($(populatedHTMLControl));
+
+            ++GlobalVariables.ArticlesToSkipCount;
         });
     }
 
