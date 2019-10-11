@@ -1,14 +1,13 @@
 ﻿"use strict";
 
 class ArticlePreviewListerBinder {
-    static async Populate(categoryID, categoryName) {
-        if (categoryName == GlobalVariables.CurrentCategoryName)
-            return;
-        GlobalVariables.CurrentCategoryName = categoryName;
-        GlobalVariables.ArticlesToSkipCount = 0;
+    static async Populate(categoryID, categoryName, reloadResults) {
+        if (reloadResults) {
+            GlobalVariables.ArticlesToSkipCount = 0;
 
-        $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
-        $('#categoryName')[0].textContent = categoryName;
+            $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
+            $('#categoryName')[0].textContent = categoryName;
+        }
 
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
         if (templateHTMLControl == null || templateHTMLControl == undefined)

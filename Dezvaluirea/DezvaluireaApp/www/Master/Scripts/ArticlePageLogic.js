@@ -2,7 +2,6 @@
 
 class ArticleBinder {
     static async Populate(articleID) {
-        GlobalVariables.CurrentCategoryName = '';
         GlobalVariables.ArticlesToSkipCount = 0;
         $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
         $('#categoryName')[0].textContent = '';

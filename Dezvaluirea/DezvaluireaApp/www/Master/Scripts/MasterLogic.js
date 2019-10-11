@@ -4,7 +4,6 @@ class GlobalVariables {
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
     static ForbiddenCategoryName = 'Uncategorized';
-    static CurrentCategoryName;
 
     static ArticlesToTakeCount = 10;
     static ArticlesToSkipCount = 0;
