@@ -4,12 +4,15 @@ include_once "CommonLogic/DatabaseLogic.php";
 include_once "../Classes/ArticlePreview.php";
 
 class ArticlePreviewsLogic {
-	public static function GetArticlePreviews($categoryID, $articlesToSkipCount, $articlesToTakeCount) {
+	public static function GetArticlePreviews($useCategoryID, $searchTerm, $articlesToSkipCount, $articlesToTakeCount) {
+		if (!$useCategoryID)
+			$searchTerm = str_replace(" ", "|", $searchTerm);
+		
 		$databaseConnection = DatabaseLogic::GetConnection();
 		
-		self::$getArticlePreviewsQuery = sprintf(self::$getArticlePreviewsQuery, $categoryID, $articlesToTakeCount, $articlesToSkipCount);
+		$getArticlePreviewsQuery = sprintf($useCategoryID ? self::$getArticlePreviewsByCategoryIDQuery : self::$getArticlePreviewsByKeywordsQuery, $searchTerm, $articlesToTakeCount, $articlesToSkipCount);
 		
-		$dbStatement = $databaseConnection->prepare(self::$getArticlePreviewsQuery);
+		$dbStatement = $databaseConnection->prepare($getArticlePreviewsQuery);
 		$dbStatement->execute();
 		
 		$articlePreviews = array();
@@ -36,7 +39,7 @@ class ArticlePreviewsLogic {
 		return $articlePreviews;
 	}
 	
-	private static $getArticlePreviewsQuery = "
+	private static $getArticlePreviewsByCategoryIDQuery = "
 		SELECT wp_posts.ID AS ID, wp_posts.post_title AS Title, wp_posts.post_content AS Content
 			FROM wp_posts
 			INNER JOIN wp_term_relationships
@@ -47,6 +50,15 @@ class ArticlePreviewsLogic {
 				ORDER BY wp_posts.post_date DESC
 			LIMIT %d
 			OFFSET %d
+	";
+	
+	private static $getArticlePreviewsByKeywordsQuery = "
+		SELECT wp_posts.ID AS ID, wp_posts.post_title AS Title, wp_posts.post_content AS Content
+		FROM wp_posts
+		WHERE wp_posts.post_type = 'post' AND wp_posts.post_status = 'publish' AND CONCAT(wp_posts.post_title, wp_posts.post_content) REGEXP '%s'
+        ORDER BY wp_posts.post_date DESC
+		LIMIT %d
+		OFFSET %d
 	";
 	
 	private static $getArticlePreviewThumbnailQuery = "

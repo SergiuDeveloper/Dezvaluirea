@@ -8,10 +8,13 @@ $successfullyRetrievedArticlePreviews = TRUE;
 
 try {
 	$categoryID = $_GET["CategoryID"];
+	$searchKeywords = $_GET["SearchKeywords"];
 	$articlesToSkipCount = $_GET["ArticlesToSkipCount"];
 	$articlesToTakeCount = $_GET["ArticlesToTakeCount"];
 	
-	$articlePreviews = ArticlePreviewsLogic::GetArticlePreviews($categoryID, $articlesToSkipCount, $articlesToTakeCount);
+	$useCategoryID = ($categoryID != null);
+	
+	$articlePreviews = ArticlePreviewsLogic::GetArticlePreviews($useCategoryID, $useCategoryID ? $categoryID : $searchKeywords, $articlesToSkipCount, $articlesToTakeCount);
 	
 	$articlePreviewsModel = new ArticlePreviewsModel();
 	$articlePreviewsModel->ArticlePreviewsArray = $articlePreviews;
