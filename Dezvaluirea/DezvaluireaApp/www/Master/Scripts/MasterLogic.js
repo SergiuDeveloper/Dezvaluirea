@@ -4,9 +4,14 @@ class GlobalVariables {
     static DefaultCategoryID = null;
     static DefaultCategoryName = 'Deschidere';
     static ForbiddenCategoryName = 'Uncategorized';
+    static SearchKeywordsCategoryName = 'Rezultate Cautare';
 
     static ArticlesToTakeCount = 10;
     static ArticlesToSkipCount = 0;
+
+    static CurrentSearchIsByCategoryID = true;
+    static CurrentSearchCategoryID = -1;
+    static CurrentSearchKeywords = '';
 
     static MaximumArticlePreviewTitleLength = 100;
     static MaximumArticlePreviewTextContentLength = 300;
@@ -53,14 +58,14 @@ class CategoryListerBinder {
         $('#categoryLinksLister').innerHTML = '';
 
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('CategoryLink'))[0];
-        if (templateHTMLControl == null || templateHTMLControl == undefined)
+        if (templateHTMLControl == null || typeof templateHTMLControl === 'undefined')
             return;
 
         var categoriesArrayObject = await EndPointsHandler.Get('Categories');
-        if (categoriesArrayObject == null || categoriesArrayObject == undefined)
+        if (categoriesArrayObject == null || typeof categoriesArrayObject === 'undefined')
             return;
         var categoriesArray = categoriesArrayObject.CategoriesArray;
-        if (categoriesArray == null || categoriesArray == undefined)
+        if (categoriesArray == null || typeof categoriesArray === 'undefined')
             return;
 
         categoriesArray = CategoryListerBinder.ValidateCategoriesArray(categoriesArray);

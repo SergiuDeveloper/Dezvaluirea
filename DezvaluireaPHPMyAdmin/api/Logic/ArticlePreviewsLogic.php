@@ -5,8 +5,14 @@ include_once "../Classes/ArticlePreview.php";
 
 class ArticlePreviewsLogic {
 	public static function GetArticlePreviews($useCategoryID, $searchTerm, $articlesToSkipCount, $articlesToTakeCount) {
-		if (!$useCategoryID)
-			$searchTerm = str_replace(" ", "|", $searchTerm);
+		if (!$useCategoryID) {
+			if ($searchTerm == null || $searchTerm == '')
+				$searchTerm = '.*';
+			else {
+				$searchTerm = self::ValidateSearchKeywords($searchTerm);
+				$searchTerm = str_replace(" ", "|", $searchTerm);
+			}
+		}
 		
 		$databaseConnection = DatabaseLogic::GetConnection();
 		
@@ -39,6 +45,34 @@ class ArticlePreviewsLogic {
 		return $articlePreviews;
 	}
 	
+	private static function ValidateSearchKeywords($searchKeywords) {
+		$validatedSearchKeywords = '';
+		
+		$searchKeywordsCharArray = str_split($searchKeywords);
+		
+		$isCharValid = false;
+		$isCharAlphaNumeric = false;
+		$isCharSpace = false;
+		$isPreviousCharSpace = false;
+		foreach ($searchKeywordsCharArray as $searchKeywordsChar) {
+			$isCharAlphaNumeric = (($searchKeywordsChar >= '0' && $searchKeywordsChar <= '9') || ($searchKeywordsChar >= 'a' && $searchKeywordsChar <= 'z') || ($searchKeywordsChar >= 'A' && $searchKeywordsChar <= 'Z'));
+			$isCharSpace = ($searchKeywordsChar == ' ');
+			
+			$isCharValid = false;
+			if ($isCharAlphaNumeric)
+				$isCharValid = true;
+			if ($isCharSpace && !$isPreviousCharSpace)
+				$isCharValid = true;
+			
+			if ($isCharValid)
+				$validatedSearchKeywords .= $searchKeywordsChar;
+			
+			$isPreviousCharSpace = $isCharSpace;
+		}
+		
+		return $validatedSearchKeywords;
+	}
+	
 	private static $getArticlePreviewsByCategoryIDQuery = "
 		SELECT wp_posts.ID AS ID, wp_posts.post_title AS Title, wp_posts.post_content AS Content
 			FROM wp_posts
@@ -55,7 +89,7 @@ class ArticlePreviewsLogic {
 	private static $getArticlePreviewsByKeywordsQuery = "
 		SELECT wp_posts.ID AS ID, wp_posts.post_title AS Title, wp_posts.post_content AS Content
 		FROM wp_posts
-		WHERE wp_posts.post_type = 'post' AND wp_posts.post_status = 'publish' AND CONCAT(wp_posts.post_title, wp_posts.post_content) REGEXP '%s'
+		WHERE wp_posts.post_type = 'post' AND wp_posts.post_status = 'publish' AND CONCAT(wp_posts.post_title, wp_posts.post_content) REGEXP '(?i)%s'
         ORDER BY wp_posts.post_date DESC
 		LIMIT %d
 		OFFSET %d

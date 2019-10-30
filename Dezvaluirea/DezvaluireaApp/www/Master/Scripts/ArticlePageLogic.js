@@ -2,23 +2,25 @@
 
 class ArticleBinder {
     static async Populate(articleID) {
+        $('#loadMoreArticlePreviewsButton').hide();
+
         GlobalVariables.ArticlesToSkipCount = 0;
         $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
         $('#categoryName')[0].textContent = '';
 
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('Article'))[0];
-        if (templateHTMLControl == null || templateHTMLControl == undefined)
+        if (templateHTMLControl == null || typeof templateHTMLControl === 'undefined')
             return;
 
         var categoryTemplateHTMLControl = (await ControlsBinder.GetControlTemplate('CategoryLabel'))[0];
-        if (categoryTemplateHTMLControl == null || categoryTemplateHTMLControl == undefined)
+        if (categoryTemplateHTMLControl == null || typeof categoryTemplateHTMLControl === 'undefined')
             return;
 
         var articleHTTPGetParameters = {
             ArticleID: articleID
         };
         var articleControl = (await EndPointsHandler.Get('Article', articleHTTPGetParameters)).Article;
-        if (articleControl == null || articleControl == undefined)
+        if (articleControl == null || typeof articleControl === 'undefined')
             return;
 
         var populatedTemplateHTMLControl = templateHTMLControl;

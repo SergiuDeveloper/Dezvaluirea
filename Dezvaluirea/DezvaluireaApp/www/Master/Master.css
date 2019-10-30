@@ -46,6 +46,7 @@ span {
 
 .is-focused .mdl-textfield__input {
     border-color: #fff;
+    background-color: darkslategrey;
 }
 
 .mdl-layout__header--transparent.mdl-layout__header--transparent {

@@ -1,29 +1,46 @@
 ﻿"use strict";
 
 class ArticlePreviewListerBinder {
-    static async Populate(categoryID, categoryName, reloadResults) {
+    static async Populate(reloadResults, searchByCategoryID, searchTerm, categoryName) {
+        $('#loadMoreArticlePreviewsButton').show();
+
         if (reloadResults) {
+            GlobalVariables.CurrentSearchIsByCategoryID = searchByCategoryID;
+
+            if (searchByCategoryID)
+                GlobalVariables.CurrentSearchCategoryID = searchTerm;
+            else {
+                searchTerm = ArticlePreviewListerBinder.ValidateSearchKeywords(searchTerm);
+
+                GlobalVariables.CurrentSearchKeywords = searchTerm;
+            }
+
             GlobalVariables.ArticlesToSkipCount = 0;
+            GlobalVariables.CurrentSearchTerms = searchTerm;
 
             $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
-            $('#categoryName')[0].textContent = categoryName;
+            $('#categoryName')[0].textContent = (searchByCategoryID ? categoryName : GlobalVariables.SearchKeywordsCategoryName);
         }
 
-        var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
-        if (templateHTMLControl == null || templateHTMLControl == undefined)
-            return;
-
         var articlePreviewsHTTPGetParameters = {
-            CategoryID: categoryID,
             ArticlesToSkipCount: GlobalVariables.ArticlesToSkipCount,
             ArticlesToTakeCount: GlobalVariables.ArticlesToTakeCount
         };
+        if (searchByCategoryID)
+            articlePreviewsHTTPGetParameters.CategoryID = searchTerm;
+        else if (typeof searchTerm !== 'undefined' && searchTerm != null && searchTerm != '')
+            articlePreviewsHTTPGetParameters.SearchKeywords = searchTerm;
+
+        var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
+        if (templateHTMLControl == null || typeof templateHTMLControl === 'undefined')
+            return;
+
         var articlePreviewsArrayObject = await EndPointsHandler.Get('ArticlePreviews', articlePreviewsHTTPGetParameters);
-        if (articlePreviewsArrayObject == null || articlePreviewsArrayObject == undefined)
+        if (articlePreviewsArrayObject == null || typeof articlePreviewsArrayObject === 'undefined')
             return;
 
         var articlePreviewsArray = articlePreviewsArrayObject.ArticlePreviewsArray;
-        if (articlePreviewsArray == null || articlePreviewsArray == undefined)
+        if (articlePreviewsArray == null || typeof articlePreviewsArray === 'undefined')
             return;
 
         var articlePreviewsListerInnerHTML = '';
@@ -41,6 +58,7 @@ class ArticlePreviewListerBinder {
             populatedHTMLControl.getElementsByClassName('articlePreviewContent')[0].textContent = articlePreviewsIterator.Content;
             populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].href =
                 populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].href.replace('{ArticleID}', articlePreviewsIterator.ID);
+            populatedHTMLControl.getElementsByClassName('articlePreviewThumbnailArticleLink')[0].href = populatedHTMLControl.getElementsByClassName('articlePreviewArticleLink')[0].href;
 
             $('#contentPlaceholder').append($(populatedHTMLControl));
 
@@ -48,8 +66,13 @@ class ArticlePreviewListerBinder {
         });
     }
 
+    static async LoadMoreArticlePreviews() {
+        ArticlePreviewListerBinder.Populate(false, GlobalVariables.CurrentSearchIsByCategoryID,
+            GlobalVariables.CurrentSearchIsByCategoryID ? GlobalVariables.CurrentSearchCategoryID : GlobalVariables.CurrentSearchKeywords);
+    }
+
     static ValidateArticleTextField(articleTextField, maximumTextFieldLength) {
-        var auxiliaryHTMLElement = document.createElement("div");
+        var auxiliaryHTMLElement = document.createElement('div');
         auxiliaryHTMLElement.innerHTML = articleTextField;
         articleTextField = auxiliaryHTMLElement.innerText;
 
@@ -68,5 +91,41 @@ class ArticlePreviewListerBinder {
         }
 
         return articleTextField;
+    }
+
+    static ValidateSearchKeywords(searchKeywords) {
+        if (typeof searchKeywords === 'undefined' || searchKeywords == null || searchKeywords == '')
+            return '';
+
+        var validatedSearchKeywords = '';
+
+        var currentChar;
+        var isCharValid;
+        var isCharAlphaNumeric;
+        var isCharSpace;
+        var isPreviousCharSpace = false;
+        for (var searchTermIterator = 0; searchTermIterator < searchKeywords.length; ++searchTermIterator) {
+            currentChar = searchKeywords[searchTermIterator];
+            isCharAlphaNumeric = Miscellaneous.IsCharAlphaNumeric(currentChar);
+            isCharSpace = Miscellaneous.IsCharSpace(currentChar);
+
+            isCharValid = false;
+            if (isCharAlphaNumeric)
+                isCharValid = true;
+            if (isCharSpace && !isPreviousCharSpace)
+                isCharValid = true;
+
+            if (isCharValid)
+                validatedSearchKeywords += currentChar;
+
+            isPreviousCharSpace = isCharSpace;
+        }
+
+        validatedSearchKeywords = validatedSearchKeywords.trim();
+
+        if (typeof validatedSearchKeywords === 'undefined' || validatedSearchKeywords == null || validatedSearchKeywords == '')
+            return '';
+
+        return validatedSearchKeywords;
     }
 }

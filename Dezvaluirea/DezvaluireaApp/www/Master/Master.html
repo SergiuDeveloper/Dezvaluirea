@@ -25,9 +25,11 @@
 
     <link rel="stylesheet" href="Master.css">
 
+    <script src="Scripts/Miscellaneous.js"></script>
     <script src="Scripts/MasterLogic.js"></script>
     <script src="Scripts/ArticlePreviewsPageLogic.js"></script>
     <script src="Scripts/ArticlePageLogic.js"></script>
+    <script src="Scripts/SearchFunctionality.js"></script>
     <script src="Master.js"></script>
 </head>
 
@@ -35,11 +37,8 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header class="mdl-layout__header mdl-layout__header--transparent mdl-layout__header--waterfall">
             <div class="mdl-layout__header-row">
-                <!-- Title -->
                 <span class="mdl-layout-title"></span>
-                <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
-                <!-- Search -->
 
                 <form action="">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
@@ -48,6 +47,7 @@
                         </label>
                         <div class="mdl-textfield__expandable-holder">
                             <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
+                            <a href="javascript:SearchFunctionality.SearchArticlesByKeywords();">Cautare</a>
                         </div>
                     </div>
                 </form>
@@ -66,6 +66,8 @@
 
         <main id="contentPlaceholder" class="mdl-layout__content">
         </main>
+
+        <a id="loadMoreArticlePreviewsButton" href="javascript:ArticlePreviewListerBinder.LoadMoreArticlePreviews();">Incarca mai multe articole</a>
     </div>
 </body>
 </html>
