@@ -108,6 +108,10 @@ span {
     line-height: 1.5;
 }
 
+#loadMoreArticlePreviewsButton {
+    display: none;
+}
+
 /*responsive tool*/
 /*Extra small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) {
@@ -182,6 +186,3 @@ span {
     }
 }
 /*end responsive tool*/
-
-
-

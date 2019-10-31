@@ -2,8 +2,6 @@
 
 class ArticlePreviewListerBinder {
     static async Populate(reloadResults, searchByCategoryID, searchTerm, categoryName) {
-        $('#loadMoreArticlePreviewsButton').show();
-
         if (reloadResults) {
             GlobalVariables.CurrentSearchIsByCategoryID = searchByCategoryID;
 
@@ -64,6 +62,8 @@ class ArticlePreviewListerBinder {
 
             ++GlobalVariables.ArticlesToSkipCount;
         });
+
+        $('#loadMoreArticlePreviewsButton').show();
     }
 
     static async LoadMoreArticlePreviews() {
