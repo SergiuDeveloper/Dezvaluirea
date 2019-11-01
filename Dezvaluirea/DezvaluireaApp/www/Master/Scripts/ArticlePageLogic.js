@@ -6,7 +6,7 @@ class ArticleBinder {
 
         GlobalVariables.ArticlesToSkipCount = 0;
         $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
-        $('#categoryName')[0].textContent = '';
+        $('#categoryName').hide();
 
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('Article'))[0];
         if (templateHTMLControl == null || typeof templateHTMLControl === 'undefined')
@@ -41,7 +41,84 @@ class ArticleBinder {
         });
 
         populatedTemplateHTMLControl.getElementsByClassName('articleContent')[0].innerHTML = articleControl.Content;
+        populatedTemplateHTMLControl.getElementsByClassName('articleContent')[0].innerHTML =
+            ArticleBinder.AddMediaToArticleContentObject(populatedTemplateHTMLControl.getElementsByClassName('articleContent')[0], articleControl.MediaArray);
         
         $('#contentPlaceholder').append($(populatedTemplateHTMLControl));
+    }
+
+    static AddMediaToArticleContentObject(articleContentObject, mediaArray) {
+        var articleContentObjectType = $(articleContentObject).prop('tagName');
+
+        var auxilliaryArticleContentObject = document.createElement(articleContentObjectType);
+        auxilliaryArticleContentObject.innerHTML = '';
+
+        var lastGalleryLinkRightLimitIndex = 0;
+        var galleryLinkLeftDelimiterIndex;
+        var galleryLinkRightDelimiterIndex;
+        var galleryLinksIDsArrayString;
+        var galleryLinksIDsArray;
+        var galleryLinkID;
+        var mediaURL;
+        var mediaControl;
+        while ((galleryLinkLeftDelimiterIndex = articleContentObject.innerHTML.indexOf(GlobalVariables.GalleryLinkLeftDelimiter, lastGalleryLinkRightLimitIndex)) != -1 &&
+            (galleryLinkRightDelimiterIndex =
+            articleContentObject.innerHTML.indexOf(GlobalVariables.GalleryLinkRightDelimiter, galleryLinkLeftDelimiterIndex + GlobalVariables.GalleryLinkLeftDelimiter.length)) != -1) {
+            auxilliaryArticleContentObject.innerHTML += articleContentObject.innerHTML.substring(lastGalleryLinkRightLimitIndex, galleryLinkLeftDelimiterIndex);
+
+            galleryLinksIDsArrayString = articleContentObject.innerHTML.substring(galleryLinkLeftDelimiterIndex + GlobalVariables.GalleryLinkLeftDelimiter.length, galleryLinkRightDelimiterIndex);
+            galleryLinksIDsArray = galleryLinksIDsArrayString.split(GlobalVariables.GalleryLinkIDDelimiter);
+            for (var galleryLinksIDsArrayIterator = 0; galleryLinksIDsArrayIterator < galleryLinksIDsArray.length; ++galleryLinksIDsArrayIterator) {
+                galleryLinkID = parseInt(galleryLinksIDsArray[galleryLinksIDsArrayIterator]);
+
+                mediaURL = ArticleBinder.GetMediaURLByMediaID(mediaArray, galleryLinkID);
+                if (mediaURL != null) {
+                    mediaControl = document.createElement('img');
+                    mediaControl.className = 'article_image_attachment';
+                    mediaControl.src = mediaURL;
+
+                    auxilliaryArticleContentObject.appendChild(mediaControl);
+                }
+            }
+
+            lastGalleryLinkRightLimitIndex = galleryLinkRightDelimiterIndex + GlobalVariables.GalleryLinkRightDelimiter.length;
+        }
+
+        auxilliaryArticleContentObject.innerHTML += articleContentObject.innerHTML.substring(lastGalleryLinkRightLimitIndex);
+
+        articleContentObject.innerHTML = '';
+        var lastVideoLinkRightLimitIndex = 0;
+        var videoLinkLeftDelimiterIndex;
+        var videoLinkRightDelimiterIndex;
+        var videoURL;
+        while ((videoLinkLeftDelimiterIndex = auxilliaryArticleContentObject.innerHTML.indexOf(GlobalVariables.VideoLinkLeftDelimiter, lastVideoLinkRightLimitIndex)) != -1 &&
+            (videoLinkRightDelimiterIndex =
+            auxilliaryArticleContentObject.innerHTML.indexOf(GlobalVariables.VideoLinkRightDelimiter, videoLinkLeftDelimiterIndex + GlobalVariables.VideoLinkLeftDelimiter.length)) != -1) {
+            articleContentObject.innerHTML += auxilliaryArticleContentObject.innerHTML.substring(lastVideoLinkRightLimitIndex, videoLinkLeftDelimiterIndex);
+
+            videoURL = auxilliaryArticleContentObject.innerHTML.substring(videoLinkLeftDelimiterIndex + GlobalVariables.VideoLinkLeftDelimiter.length, videoLinkRightDelimiterIndex);
+            if (videoURL != '') {
+                mediaControl = document.createElement('video');
+                mediaControl.className = 'article_video';
+                mediaControl.src = videoURL;
+                mediaControl.setAttribute("controls", "controls");
+
+                articleContentObject.appendChild(mediaControl);
+            }
+
+            lastVideoLinkRightLimitIndex = videoLinkRightDelimiterIndex + GlobalVariables.VideoLinkRightDelimiter.length;
+        }
+
+        articleContentObject.innerHTML += auxilliaryArticleContentObject.innerHTML.substring(lastVideoLinkRightLimitIndex);
+
+        return articleContentObject.innerHTML;
+    }
+
+    static GetMediaURLByMediaID(mediaArray, mediaID) {
+        for (var mediaArrayIterator = 0; mediaArrayIterator < mediaArray.length; ++mediaArrayIterator)
+            if (mediaArray[mediaArrayIterator].ID == mediaID)
+                return mediaArray[mediaArrayIterator].URL;
+
+        return null;
     }
 }

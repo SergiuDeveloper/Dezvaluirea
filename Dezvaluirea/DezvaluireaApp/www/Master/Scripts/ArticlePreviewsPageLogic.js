@@ -1,33 +1,35 @@
 ﻿"use strict";
 
 class ArticlePreviewListerBinder {
-    static async Populate(reloadResults, searchByCategoryID, searchTerm, categoryName) {
+    static async Populate(reloadResults, searchByCategoryID, searchTerm, categoryName, isBackButtonClick) {
         if (reloadResults) {
-            GlobalVariables.CurrentSearchIsByCategoryID = searchByCategoryID;
-
-            if (searchByCategoryID)
-                GlobalVariables.CurrentSearchCategoryID = searchTerm;
-            else {
-                searchTerm = ArticlePreviewListerBinder.ValidateSearchKeywords(searchTerm);
-
-                GlobalVariables.CurrentSearchKeywords = searchTerm;
-            }
-
             GlobalVariables.ArticlesToSkipCount = 0;
-            GlobalVariables.CurrentSearchTerms = searchTerm;
 
             $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
-            $('#categoryName')[0].textContent = (searchByCategoryID ? categoryName : GlobalVariables.SearchKeywordsCategoryName);
+
+            if (!isBackButtonClick) {
+                GlobalVariables.CurrentSearchIsByCategoryID = searchByCategoryID;
+
+                if (GlobalVariables.CurrentSearchIsByCategoryID)
+                    GlobalVariables.CurrentSearchCategoryID = searchTerm;
+                else {
+                    searchTerm = ArticlePreviewListerBinder.ValidateSearchKeywords(searchTerm);
+
+                    GlobalVariables.CurrentSearchKeywords = searchTerm;
+                }
+
+                $('#categoryName')[0].textContent = (searchByCategoryID ? categoryName : GlobalVariables.SearchKeywordsCategoryName);
+            }
         }
 
         var articlePreviewsHTTPGetParameters = {
             ArticlesToSkipCount: GlobalVariables.ArticlesToSkipCount,
             ArticlesToTakeCount: GlobalVariables.ArticlesToTakeCount
         };
-        if (searchByCategoryID)
-            articlePreviewsHTTPGetParameters.CategoryID = searchTerm;
-        else if (typeof searchTerm !== 'undefined' && searchTerm != null && searchTerm != '')
-            articlePreviewsHTTPGetParameters.SearchKeywords = searchTerm;
+        if (GlobalVariables.CurrentSearchIsByCategoryID)
+            articlePreviewsHTTPGetParameters.CategoryID = GlobalVariables.CurrentSearchCategoryID;
+        else
+            articlePreviewsHTTPGetParameters.SearchKeywords = GlobalVariables.CurrentSearchKeywords;
 
         var templateHTMLControl = (await ControlsBinder.GetControlTemplate('ArticlePreview'))[0];
         if (templateHTMLControl == null || typeof templateHTMLControl === 'undefined')
@@ -64,6 +66,7 @@ class ArticlePreviewListerBinder {
         });
 
         $('#loadMoreArticlePreviewsButton').show();
+        $('#categoryName').show();
     }
 
     static async LoadMoreArticlePreviews() {
@@ -82,13 +85,28 @@ class ArticlePreviewListerBinder {
         var galleryLinkRightDelimiterIndex;
         while ((galleryLinkLeftDelimiterIndex = articleTextField.indexOf(GlobalVariables.GalleryLinkLeftDelimiter, lastGalleryLinkRightLimitIndex)) != -1 &&
             (galleryLinkRightDelimiterIndex =
-                articleTextField.indexOf(GlobalVariables.GalleryLinkRightDelimiter, galleryLinkLeftDelimiterIndex + GlobalVariables.GalleryLinkLeftDelimiter.length)) != -1) {
+            articleTextField.indexOf(GlobalVariables.GalleryLinkRightDelimiter, galleryLinkLeftDelimiterIndex + GlobalVariables.GalleryLinkLeftDelimiter.length)) != -1) {
             newArticleTextField += articleTextField.substring(lastGalleryLinkRightLimitIndex, galleryLinkLeftDelimiterIndex);
 
             lastGalleryLinkRightLimitIndex = galleryLinkRightDelimiterIndex + GlobalVariables.GalleryLinkRightDelimiter.length;
         }
 
         newArticleTextField += articleTextField.substring(lastGalleryLinkRightLimitIndex);
+        articleTextField = newArticleTextField;
+
+        newArticleTextField = '';
+        var lastVideoLinkRightLimitIndex = 0;
+        var videoLinkLeftDelimiterIndex;
+        var videoLinkRightDelimiterIndex;
+        while ((videoLinkLeftDelimiterIndex = articleTextField.indexOf(GlobalVariables.VideoLinkLeftDelimiter, lastVideoLinkRightLimitIndex)) != -1 &&
+            (videoLinkRightDelimiterIndex =
+            articleTextField.indexOf(GlobalVariables.VideoLinkRightDelimiter, videoLinkLeftDelimiterIndex + GlobalVariables.VideoLinkLeftDelimiter.length)) != -1) {
+            newArticleTextField += articleTextField.substring(lastVideoLinkRightLimitIndex, videoLinkLeftDelimiterIndex);
+
+            lastVideoLinkRightLimitIndex = videoLinkRightDelimiterIndex + GlobalVariables.VideoLinkRightDelimiter.length;
+        }
+
+        newArticleTextField += articleTextField.substring(lastVideoLinkRightLimitIndex);
         articleTextField = newArticleTextField;
 
         if (articleTextField.length > maximumTextFieldLength) {

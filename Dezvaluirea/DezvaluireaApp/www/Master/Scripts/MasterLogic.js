@@ -19,6 +19,9 @@ class GlobalVariables {
     static GalleryLinkLeftDelimiter = '[gallery link=\"file\" ids=\"';
     static GalleryLinkRightDelimiter = '\"]';
     static GalleryLinkIDDelimiter = ',';
+
+    static VideoLinkLeftDelimiter = '[evp_embed_video url="';
+    static VideoLinkRightDelimiter = '" preload="auto" template="mediaelement"]';
 }
 
 class PageInitialization {
