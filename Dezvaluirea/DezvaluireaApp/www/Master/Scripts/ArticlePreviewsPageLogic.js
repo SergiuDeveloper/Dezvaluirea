@@ -76,6 +76,21 @@ class ArticlePreviewListerBinder {
         auxiliaryHTMLElement.innerHTML = articleTextField;
         articleTextField = auxiliaryHTMLElement.innerText;
 
+        var newArticleTextField = '';
+        var lastGalleryLinkRightLimitIndex = 0;
+        var galleryLinkLeftDelimiterIndex;
+        var galleryLinkRightDelimiterIndex;
+        while ((galleryLinkLeftDelimiterIndex = articleTextField.indexOf(GlobalVariables.GalleryLinkLeftDelimiter, lastGalleryLinkRightLimitIndex)) != -1 &&
+            (galleryLinkRightDelimiterIndex =
+                articleTextField.indexOf(GlobalVariables.GalleryLinkRightDelimiter, galleryLinkLeftDelimiterIndex + GlobalVariables.GalleryLinkLeftDelimiter.length)) != -1) {
+            newArticleTextField += articleTextField.substring(lastGalleryLinkRightLimitIndex, galleryLinkLeftDelimiterIndex);
+
+            lastGalleryLinkRightLimitIndex = galleryLinkRightDelimiterIndex + GlobalVariables.GalleryLinkRightDelimiter.length;
+        }
+
+        newArticleTextField += articleTextField.substring(lastGalleryLinkRightLimitIndex);
+        articleTextField = newArticleTextField;
+
         if (articleTextField.length > maximumTextFieldLength) {
             if (articleTextField[maximumTextFieldLength] == ' ')
                 while (maximumTextFieldLength > 0 && articleTextField[maximumTextFieldLength] == ' ')

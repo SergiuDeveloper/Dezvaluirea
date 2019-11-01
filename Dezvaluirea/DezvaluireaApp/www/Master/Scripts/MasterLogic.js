@@ -15,6 +15,10 @@ class GlobalVariables {
 
     static MaximumArticlePreviewTitleLength = 100;
     static MaximumArticlePreviewTextContentLength = 300;
+
+    static GalleryLinkLeftDelimiter = '[gallery link=\"file\" ids=\"';
+    static GalleryLinkRightDelimiter = '\"]';
+    static GalleryLinkIDDelimiter = ',';
 }
 
 class PageInitialization {
