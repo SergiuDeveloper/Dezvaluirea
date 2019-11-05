@@ -3,9 +3,8 @@ body {
 }
 
 a {
-    color: red;
     font-weight: bold;
-    text-decoration: inherit;
+    text-decoration: none;
 }
 
 .mdl-layout {
@@ -203,3 +202,46 @@ span {
     }
 }
 /*end responsive tool*/
+
+/*Label Category Name*/
+#categoryName {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    font-size: 20px;
+    background-color: #f5EEEE;
+    text-shadow: 0px 5px 10px #f5EEEE;
+    -webkit-box-shadow: 0px 0px 58px 50px #edebeb;
+    -moz-box-shadow: 0px 0px 58px 50px #edebeb;
+    box-shadow: 0px 0px 58px 50px #edebeb;
+}
+/*Article Preview*/
+.articlePreviewArticleLink {
+    color: #000000;
+    text-decoration: none;
+}
+    .articlePreviewArticleLink::after a {
+        color: #000000;
+        opacity:inherit;
+    }
+/*MoreArticle*/
+#loadMoreArticlePreviewsButton {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    font-size: 15px;
+    background-color: #f5EEEE;
+    text-shadow: 0px 5px 10px #f5EEEE;
+    -webkit-box-shadow: 0px 0px 58px 20px #edebeb;
+    -moz-box-shadow: 0px 0px 58px 20px #edebeb;
+    box-shadow: 0px 0px 58px 20px #edebeb;
+}
+/*ArticlePreviewBack*/
+.ArticlePreviewBack {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    font-size: 15px;
+}
