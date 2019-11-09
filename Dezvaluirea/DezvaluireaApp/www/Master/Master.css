@@ -5,7 +5,20 @@ body {
 a {
     font-weight: bold;
     text-decoration: none;
+    color: #000000;
 }
+    a:link {
+        text-decoration: none;
+    }
+        a:visited {
+            text-decoration: none;
+        }
+            a:hover {
+                text-decoration: none;
+            }
+                a:active {
+                    text-decoration: none;
+                }
 
 .mdl-layout {
     background-color: #FFFCFC;
@@ -114,6 +127,7 @@ span {
     position: relative;
     padding: 10px;
     width: 100%;
+    margin-top: 20px;
     background: transparent;
     border: 2px solid #000;
     border-radius: 20px;
@@ -129,6 +143,7 @@ span {
 }
 
 /*responsive tool*/
+
 /*Extra small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) {
     .img-responsive {
@@ -239,9 +254,29 @@ span {
 }
 /*ArticlePreviewBack*/
 .ArticlePreviewBack {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    font-size: 15px;
+    position: absolute;
+    text-decoration: none;
+    margin-top: -53px;
+    left: 280px;
+    font-size: 17px;
+    color: #000000;
+    background-color: #f5EEEE;
+    border: 1px solid #dcd6d6;
+    text-align: center;
+    padding: 6px 6px;
+    font-family: 'Cinzel', serif;
 }
+    .ArticlePreviewBack:link {
+        text-decoration: none;
+        color: #000000;
+    }
+        .ArticlePreviewBack:visited {
+            text-decoration: none;
+        }
+            .ArticlePreviewBack:hover {
+                text-decoration: none;
+            }
+                .ArticlePreviewBack:active {
+                    text-decoration: none;
+                }
+/*.ArticlePreviewBack--- End*/
