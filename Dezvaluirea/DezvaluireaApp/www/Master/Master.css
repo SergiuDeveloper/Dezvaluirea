@@ -100,7 +100,7 @@ span {
     position: relative;
     left: 0;
     margin-top: 1px;
-    border: 5px solid #ddd;
+    border: 1px solid #000000;
     /*border-radius: 70px;
     padding: 5px;*/
     width: 100%;
@@ -254,29 +254,40 @@ span {
 }
 /*ArticlePreviewBack*/
 .ArticlePreviewBack {
-    position: absolute;
+    position: relative;
+    position: fixed;
+    top: 300px;
+    left: 290px; 
     text-decoration: none;
     margin-top: -53px;
-    left: 280px;
     font-size: 17px;
     color: #000000;
     background-color: #f5EEEE;
     border: 1px solid #dcd6d6;
     text-align: center;
     padding: 6px 6px;
-    font-family: 'Cinzel', serif;
+    font-family: 'Cinzel', serif; */
 }
-    .ArticlePreviewBack:link {
-        text-decoration: none;
-        color: #000000;
-    }
-        .ArticlePreviewBack:visited {
+        .ArticlePreviewBack:link {
             text-decoration: none;
+            color: #000000;
         }
-            .ArticlePreviewBack:hover {
+            .ArticlePreviewBack:visited {
                 text-decoration: none;
             }
-                .ArticlePreviewBack:active {
+                .ArticlePreviewBack:hover {
                     text-decoration: none;
+                    color: rgba(0, 0, 0, 0.5);
                 }
+                    .ArticlePreviewBack:active {
+                        text-decoration: none;
+                    }
 /*.ArticlePreviewBack--- End*/
+.articleDate {
+    font-size: 15px;
+
+}
+.articleContent {
+    text-align: justify;
+    text-justify: inter-word;
+}
