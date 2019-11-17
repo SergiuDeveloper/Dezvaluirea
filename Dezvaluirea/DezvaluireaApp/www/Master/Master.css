@@ -75,7 +75,7 @@ span {
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    top: -20px;
+    top: -7px;
     display: block;
     border: none;
 }
@@ -110,7 +110,7 @@ span {
     position: relative;
     left: 0;
     margin-top: 1px;
-    border: 5px solid #ddd;
+    border: 1px solid #000000;
     /*border-radius: 70px;
     padding: 5px;*/
     height: 100%;
@@ -127,7 +127,7 @@ span {
     position: relative;
     padding: 10px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 1px;
     background: transparent;
     border: 2px solid #000;
     border-radius: 20px;
@@ -137,11 +137,6 @@ span {
     font-size: 14px;
     line-height: 1.5;
 }
-
-#loadMoreArticlePreviewsButton {
-    display: none;
-}
-
 /*responsive tool*/
 
 /*Extra small devices (portrait phones, less than 576px)*/
@@ -222,7 +217,7 @@ span {
 #categoryName {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 14px;
     font-size: 20px;
     background-color: #f5EEEE;
     text-shadow: 0px 5px 10px #f5EEEE;
@@ -246,6 +241,7 @@ span {
     margin-right: auto;
     margin-top: 10px;
     font-size: 15px;
+    font-style: italic;
     background-color: #f5EEEE;
     text-shadow: 0px 5px 10px #f5EEEE;
     -webkit-box-shadow: 0px 0px 58px 20px #edebeb;
@@ -266,7 +262,8 @@ span {
     border: 1px solid #dcd6d6;
     text-align: center;
     padding: 6px 6px;
-    font-family: 'Cinzel', serif; */
+    font-family: 'Cinzel', serif;
+    z-index: 0;
 }
         .ArticlePreviewBack:link {
             text-decoration: none;
@@ -291,3 +288,78 @@ span {
     text-align: justify;
     text-justify: inter-word;
 }
+
+.articleThumbnail, .article_image_attachment {
+    z-index: -1;
+}
+
+/*Search bar*/
+.SearchBar {
+    font-size: 15px;
+    margin-left: -60px;
+ }
+.material-icons {
+   margin-top: -10px     
+   }
+
+
+/*Shapes*/
+.clip-path {
+    position: relative;
+    background: #f2f0f0;
+    left: -32px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    opacity: .50;
+}
+.clip-path1 {
+    position: relative;
+    background: #f2f0f0;
+    top: -160px;
+    left: 130px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: .50;
+}
+.oval {
+    position: absolute;
+    z-index: -1;
+    left: 150px;
+    top: 130px;
+    width: 200px;
+    height: 100px;
+    background: #f2f0f0;
+    border-radius: 100px / 50px;
+    opacity: .50;
+}
+
+.diamond {
+    border-style: solid;
+    border-color: transparent transparent #f2f0f0 transparent;
+    border-width: 0 25px 25px 25px;
+    height: 0;
+    width: 50px;
+    box-sizing: content-box;
+    position: absolute;
+    margin: 20px 0 50px 0;
+    z-index: -1;
+    opacity: .50;
+    top: 200px;
+}
+
+    .diamond:after {
+        content: "";
+        position: absolute;
+        top: 25px;
+        left: -25px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: #f2f0f0 transparent transparent transparent;
+        border-width: 70px 50px 0 50px;
+        z-index: -1;
+        opacity: .50;
+    }
