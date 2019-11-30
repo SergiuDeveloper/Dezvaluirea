@@ -3,6 +3,7 @@
 class ArticleBinder {
     static async Populate(articleID) {
         $('#loadMoreArticlePreviewsButton').hide();
+        $('#loadingAnimation').show();
 
         GlobalVariables.ArticlesToSkipCount = 0;
         $('#contentPlaceholder')[0].innerHTML = PageInitialization.ClearPageContent($('#contentPlaceholder')).innerHTML;
@@ -45,6 +46,8 @@ class ArticleBinder {
             ArticleBinder.AddMediaToArticleContentObject(populatedTemplateHTMLControl.getElementsByClassName('articleContent')[0], articleControl.MediaArray);
         
         $('#contentPlaceholder').append($(populatedTemplateHTMLControl));
+
+        $('#loadingAnimation').hide();
     }
 
     static AddMediaToArticleContentObject(articleContentObject, mediaArray) {

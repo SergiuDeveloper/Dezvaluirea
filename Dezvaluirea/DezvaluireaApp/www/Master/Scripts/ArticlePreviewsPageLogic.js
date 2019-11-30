@@ -22,6 +22,9 @@ class ArticlePreviewListerBinder {
             }
         }
 
+        $('#loadMoreArticlePreviewsButton').hide();
+        $('#loadingAnimation').show();
+
         var articlePreviewsHTTPGetParameters = {
             ArticlesToSkipCount: GlobalVariables.ArticlesToSkipCount,
             ArticlesToTakeCount: GlobalVariables.ArticlesToTakeCount
@@ -66,6 +69,7 @@ class ArticlePreviewListerBinder {
         });
 
         $('#loadMoreArticlePreviewsButton').show();
+        $('#loadingAnimation').hide();
         $('#categoryName').show();
     }
 
