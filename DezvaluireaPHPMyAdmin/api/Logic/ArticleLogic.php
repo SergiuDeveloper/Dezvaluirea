@@ -8,15 +8,15 @@ class ArticleLogic {
 	public static function GetArticle($articleID) {
 		$databaseConnection = DatabaseLogic::GetConnection();
 		
-		self::$getArticleQuery = sprintf(self::$getArticleQuery, $articleID);
 		$dbStatement = $databaseConnection->prepare(self::$getArticleQuery);
+		$dbStatement->bindValue(1, $articleID, PDO::PARAM_INT);
 		$dbStatement->execute();
 		
 		$dbArticle = $dbStatement->fetch(PDO::FETCH_ASSOC);
 		extract($dbArticle);
 		
-		self::$getArticleCategoriesQuery = sprintf(self::$getArticleCategoriesQuery, $articleID);
 		$dbSecondaryStatement = $databaseConnection->prepare(self::$getArticleCategoriesQuery);
+		$dbSecondaryStatement->bindValue(1, $articleID, PDO::PARAM_INT);
 		$dbSecondaryStatement->execute();
 		
 		$CategoryNamesArray = array();
@@ -28,8 +28,8 @@ class ArticleLogic {
 			array_push($CategoryNamesArray, $categoryName);
 		}
 		
-		self::$getArticleThumbnailURLQuery = sprintf(self::$getArticleThumbnailURLQuery, $articleID);
 		$dbTertiaryStatement = $databaseConnection->prepare(self::$getArticleThumbnailURLQuery);
+		$dbTertiaryStatement->bindValue(1, $articleID, PDO::PARAM_INT);
 		$dbTertiaryStatement->execute();
 		
 		$dbThumbnailURL = $dbTertiaryStatement->fetch(PDO::FETCH_ASSOC);
@@ -38,9 +38,15 @@ class ArticleLogic {
 		$MediaArray = array();
 		
 		$imageIDsArray = self::GetImageIDs($Content);
-		$imageIDsString = implode(", ", $imageIDsArray);
-		self::$getArticleImagesArrayQuery = sprintf(self::$getArticleImagesArrayQuery, $imageIDsString);
+		$imageIDsParamsPattern = implode(",", array_fill(0, count($imageIDsArray), "?"));
+		self::$getArticleImagesArrayQuery = str_replace("?", $imageIDsParamsPattern, self::$getArticleImagesArrayQuery);
+		
 		$dbQuaternaryStatement = $databaseConnection->prepare(self::$getArticleImagesArrayQuery);
+		$imageIDsIterator = 1;
+		foreach ($imageIDsArray as $imageID) {
+			$dbQuaternaryStatement->bindValue($imageIDsIterator, $imageID, PDO::PARAM_INT);
+			++$imageIDsIterator;
+		}
 		$dbQuaternaryStatement->execute();
 		
 		while ($dbImage = $dbQuaternaryStatement->fetch(PDO::FETCH_ASSOC)) {
@@ -53,8 +59,8 @@ class ArticleLogic {
 			array_push($MediaArray, $media);
 		}
 		
-		self::$getArticleVideosArrayQuery = sprintf(self::$getArticleVideosArrayQuery, $articleID);
 		$dbQuinaryStatement = $databaseConnection->prepare(self::$getArticleVideosArrayQuery);
+		$dbQuinaryStatement->bindValue(1, $articleID, PDO::PARAM_INT);
 		$dbQuinaryStatement->execute();
 		
 		while ($dbVideo = $dbQuinaryStatement->fetch(PDO::FETCH_ASSOC)) {
@@ -111,7 +117,7 @@ class ArticleLogic {
 	private static $getArticleQuery = "
 		SELECT post_title as Title, post_content as Content, post_date as CreationDate 
 			FROM wp_posts
-			WHERE ID = %d AND post_type = 'post' AND post_status = 'publish'
+			WHERE ID = ? AND post_type = 'post' AND post_status = 'publish'
 			LIMIT 1
 	";
 	
@@ -122,7 +128,7 @@ class ArticleLogic {
 				ON wp_term_taxonomy.term_id = wp_terms.term_id
            	INNER join wp_term_relationships
             	ON wp_term_taxonomy.term_taxonomy_id = wp_term_relationships.term_taxonomy_id
-			WHERE wp_term_taxonomy.taxonomy = 'category' AND wp_term_taxonomy.count > 0 AND wp_term_relationships.object_id = %d
+			WHERE wp_term_taxonomy.taxonomy = 'category' AND wp_term_taxonomy.count > 0 AND wp_term_relationships.object_id = ?
 	";
 	
 	private static $getArticleThumbnailURLQuery = "
@@ -130,20 +136,20 @@ class ArticleLogic {
 			FROM wp_posts
 			INNER JOIN wp_postmeta
 				ON wp_posts.ID = wp_postmeta.meta_value
-			WHERE wp_postmeta.post_id = %d AND wp_posts.post_type = 'attachment' AND wp_postmeta.meta_key = '_thumbnail_id'
+			WHERE wp_postmeta.post_id = ? AND wp_posts.post_type = 'attachment' AND wp_postmeta.meta_key = '_thumbnail_id'
 			LIMIT 1
 	";
 	
 	private static $getArticleImagesArrayQuery = "
 		SELECT ID as ID, guid as MediaURL 
 			FROM wp_posts
-			WHERE ID IN (%s) AND post_type = 'attachment'
+			WHERE ID IN (?) AND post_type = 'attachment'
 	";
 	
 	private static $getArticleVideosArrayQuery = "
 		SELECT meta_id AS ID, meta_value as MediaURL
 			FROM wp_postmeta
-			WHERE post_id = %d AND meta_key = 'enclosure'
+			WHERE post_id = ? AND meta_key = 'enclosure'
 	";
 	
 	private static $galleryTagLeftDelimiter = 'ids="';
