@@ -245,9 +245,9 @@ span {
 /*MoreArticle*/
 #loadMoreArticlePreviewsButton {
     position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 15px;
     font-style: italic;
     background-color: #f5EEEE;
@@ -255,6 +255,8 @@ span {
     -webkit-box-shadow: 0 0 58px 20px #edebeb;
     -moz-box-shadow: 0 0 58px 20px #edebeb;
     box-shadow: 0 0 58px 20px #edebeb;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 /*ArticlePreviewBack*/
 .ArticlePreviewBack {
@@ -307,9 +309,13 @@ span {
 }
 .articleDate {
     font-size: 20px;
+    position: relative;
+    margin-top: -3px;
+    display: flex;
+    font-style: italic;
 }
 .loadingAnimation {
-    margin-left: auto;
+    margin-left: 200px;
     margin-right: auto;
 }
 
