@@ -1,5 +1,6 @@
+@import url("https://fonts.googleapis.com/css?family=EB+Garamond&display=swap");
 body {
-    font-family: 'Cinzel', serif;
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
 }
 
 a {
@@ -35,7 +36,6 @@ span {
 }
 
 .mdl-layout__content {
-    text-align:center;
     margin-left: 10px;
 }
 
@@ -285,6 +285,20 @@ span {
     -moz-animation: rotator 1.4s linear infinite;
     animation: rotator 1.4s linear infinite;
 }
+
+.articlePreviewTitle {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleTitle {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleContent {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleDate {
+    font-size: 20px;
+}
+
 
 @-webkit-keyframes rotator {
     0% {
