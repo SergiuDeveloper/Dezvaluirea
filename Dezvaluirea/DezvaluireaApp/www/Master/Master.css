@@ -26,6 +26,16 @@ a {
     /*#5c9ca4*/
 }
 
+.material-icons {
+    margin-top: -7px;
+}
+.SearchBar {
+    margin-left: 20px;
+}
+.mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right is-upgraded is-focused {
+    background-color: red;
+}
+
 span {
     font-size: 30px;
     font-weight: bold;
@@ -298,6 +308,11 @@ span {
 .articleDate {
     font-size: 20px;
 }
+.loadingAnimation {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 
 @-webkit-keyframes rotator {
