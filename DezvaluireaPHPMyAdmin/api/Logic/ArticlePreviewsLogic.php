@@ -31,7 +31,7 @@ class ArticlePreviewsLogic {
 		while ($dbArticlePreview = $dbStatement->fetch(PDO::FETCH_ASSOC)) {
 			extract($dbArticlePreview);
 			
-			$dbSecondaryStatement = $databaseConnection->prepare($getArticlePreviewThumbnailQueryToExecute);
+			$dbSecondaryStatement = $databaseConnection->prepare(self::$getArticlePreviewThumbnailQuery);
 			$dbSecondaryStatement->bindValue(1, $ID, PDO::PARAM_INT);
 			
 			$dbSecondaryStatement->execute();
