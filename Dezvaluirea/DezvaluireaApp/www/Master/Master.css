@@ -1,5 +1,6 @@
+@import url("https://fonts.googleapis.com/css?family=EB+Garamond&display=swap");
 body {
-    font-family: 'Cinzel', serif;
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
 }
 
 a {
@@ -25,6 +26,16 @@ a {
     /*#5c9ca4*/
 }
 
+.material-icons {
+    margin-top: -7px;
+}
+.SearchBar {
+    margin-left: 20px;
+}
+.mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right is-upgraded is-focused {
+    background-color: red;
+}
+
 span {
     font-size: 30px;
     font-weight: bold;
@@ -35,7 +46,6 @@ span {
 }
 
 .mdl-layout__content {
-    text-align:center;
     margin-left: 10px;
 }
 
@@ -235,9 +245,9 @@ span {
 /*MoreArticle*/
 #loadMoreArticlePreviewsButton {
     position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 15px;
     font-style: italic;
     background-color: #f5EEEE;
@@ -245,6 +255,8 @@ span {
     -webkit-box-shadow: 0 0 58px 20px #edebeb;
     -moz-box-shadow: 0 0 58px 20px #edebeb;
     box-shadow: 0 0 58px 20px #edebeb;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 /*ArticlePreviewBack*/
 .ArticlePreviewBack {
@@ -285,6 +297,29 @@ span {
     -moz-animation: rotator 1.4s linear infinite;
     animation: rotator 1.4s linear infinite;
 }
+
+.articlePreviewTitle {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleTitle {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleContent {
+    font-family: Gill Sans,Gill Sans MT,Calibri,sans-serif;
+}
+.articleDate {
+    font-size: 20px;
+    position: relative;
+    margin-top: -3px;
+    display: flex;
+    font-style: italic;
+}
+.loadingAnimation {
+    margin-left: 200px;
+    margin-right: auto;
+}
+
+
 
 @-webkit-keyframes rotator {
     0% {
