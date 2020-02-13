@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "734353967915",
+    "firebase_url": "https://dezvaluireaapp.firebaseio.com",
+    "project_id": "dezvaluireaapp",
+    "storage_bucket": "dezvaluireaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734353967915:android:c7f9f60936a4becf20536e",
+        "android_client_info": {
+          "package_name": "com.dezvaluirea.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734353967915-nps7s1nun7sc5903mcbb62ssgs22tcq4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnqyoGq7LkidYnagyal_hZb2HcIhP3q3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734353967915-nps7s1nun7sc5903mcbb62ssgs22tcq4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "DezvaluireaApp",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "cordova": "^9.0.0",
+    "cordova-ios": "4.2.0",
+    "cordova-windows": "4.4.2"
+  },
+  "cordova": {
+    "platforms": [
+      "ios",
+      "windows"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-fcm": {}
+    }
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "~1.3.4",
+    "cordova-plugin-fcm": "~2.1.2"
+  }
+}
