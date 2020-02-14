@@ -4,7 +4,6 @@ include_once "CommonLogic/DatabaseLogic.php";
 include_once "../Classes/FCMNotification.php";
 include_once "../Classes/HTTPRequestHeader.php";
 include_once "../Classes/FCMHTTPRequestData.php";
-include_once "../Classes/FCMHTTPRequestDataNotification.php";
 
 class FCMConnector {
     public static function SendNotifications() {
@@ -29,59 +28,64 @@ class FCMConnector {
             $dbArticle = $dbSecondaryStatement->fetch(PDO::FETCH_ASSOC);
             extract($dbArticle);
 
-            $getArticleThumbnailURLQueryToExecute = sprintf(self::$getArticleThumbnailURLQuery, $notificationPostID);
-
-            $dbTertiaryStatement = $databaseConnection->prepare($getArticleThumbnailURLQueryToExecute);
-            $dbTertiaryStatement->execute();
-
-            $dbArticleThumbnailURL = $dbTertiaryStatement->fetch(PDO::FETCH_ASSOC);
-            extract($dbArticleThumbnailURL);
-
             $deleteFCMNotificationPostIDQueryToExecute = sprintf(self::$deleteFCMNotificationPostIDQuery, $notificationPostID);
 
-            $dbQuaternaryStatement = $databaseConnection->prepare($deleteFCMNotificationPostIDQueryToExecute);
-            $dbQuaternaryStatement->execute();
+            $dbTertiaryStatement = $databaseConnection->prepare($deleteFCMNotificationPostIDQueryToExecute);
+            $dbTertiaryStatement->execute();
 
-            self::SendNotification($Title, $ThumbnailURL, $Content);
+            self::SendNotification($Title, $Content);
         }
     }
 
-    private static function SendNotification($notificationTitle, $notificationImageURL, $notificationMessage) {
-        $fcmNotification = new FCMNotification();
-        $fcmNotification->Title = $notificationTitle;
-        $fcmNotification->Image = $notificationImageURL;
-        $fcmNotification->Message = $notificationMessage;
+    public static function SendNotification($notificationTitle, $notificationMessage) {
+        if (strlen($notificationTitle) > self::$FCMNotificationTitleSizeLimit) {
+            $notificationTitle = substr($notificationTitle, 0, self::$FCMNotificationTitleSizeLimit);
+            $notificationTitle = sprintf("%s...", $notificationTitle);
+        }
+        if (strlen($notificationMessage) > self::$FCMNotificationBodySizeLimit) {
+            $notificationMessage = substr($notificationMessage, 0, self::$FCMNotificationBodySizeLimit);
+            $notificationMessage = sprintf("%s...", $notificationMessage);
+        }
 
-        self::SendNotificationPostRequest($fcmNotification);
+        $httpHeader = [
+            "Authorization: key=" . self::$FCMAPI,
+            "Content-Type: application/json"
+        ];
+        
+        $notificationObject = [
+            "title" => $notificationTitle,
+            "body"  => $notificationMessage,
+            "icon"  => "",
+            "sound" => ""
+        ];
+
+        $extraNotificationDataObject = [
+            "message" => $notificationObject
+        ];
+
+        $fcmNotificationObject = [
+            "to"           => self::$FCMNotificationTarget,
+            "notification" => $notificationObject,
+            "data"         => $extraNotificationDataObject
+        ];
+
+        $curlObject = curl_init();
+        curl_setopt($curlObject, CURLOPT_URL, self::$FCMURL);
+        curl_setopt($curlObject, CURLOPT_POST, true);
+        curl_setopt($curlObject, CURLOPT_HTTPHEADER, $httpHeader);
+        curl_setopt($curlObject, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curlObject, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curlObject, CURLOPT_POSTFIELDS, json_encode($fcmNotificationObject));
+        
+        $result = curl_exec($curlObject);
+        curl_close($curlObject);
     }
 
-    private static function SendNotificationPostRequest($fcmNotification) {
-        $postRequestHeader = new HTTPRequestHeader();
-        $postRequestHeader->Authorization = sprintf("key=%s", self::$FCMAPI);
-        $postRequestHeader->ContentType = "application/json";
-
-        $postRequestData = new HTTPRequestData();
-        $postRequestData->To = self::$FCMNotificationTarget;
-        $postRequestData->Notification = new FCMHTTPRequestDataNotification();
-        $postRequestData->Notification->Title = $fcmNotification->Title;
-        $postRequestData->Notification->Body = $fcmNotification->Message;
-        $postRequestData->Data = $fcmNotification;
-        $postRequestDataJSON = json_encode($postRequestData);
-    
-        $curlHandler = curl_init();
-
-        curl_setopt($curlHandler, CURLOPT_URL, self::$FCMURL);
-        curl_setopt($curlHandler, CURLOPT_POST, true);
-        curl_setopt($curlHandler, CURLOPT_HTTPHEADER, $postRequestHeader);
-        curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curlHandler, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curlHandler, CURLOPT_POSTFIELDS, $postRequestDataJSON);
-
-        curl_exec($curlHandler);
-    }
+    private static $FCMNotificationTitleSizeLimit = 32;
+    private static $FCMNotificationBodySizeLimit = 128;
 
     private static $FCMNotificationTarget = "/topics/all";
-    private static $FCMAPI = "AIzaSyBAEFfxPoUnW3DW5YW1jjHcnwq76pslfVI";
+    private static $FCMAPI = "AAAAqvroSys:APA91bH23_nceNv-Esd2O4sJDkbObfXpJxAX3zHApwO3tAcXCxHX7po494ZOW0piIlGVs-vSTjC_cOs-0_TsITatkaMV524JBi0wnAKvF-Zz1HVuHexiN7VH5gof9eqKhvM_KewHgr0R";
     private static $FCMURL = "https://fcm.googleapis.com/fcm/send";
 
     private static $getFCMNotificationPostIDsQuery = "
@@ -97,15 +101,6 @@ class FCMConnector {
 		SELECT post_title as Title, post_content as Content
 			FROM wp_posts
 			WHERE ID = %d AND post_type = 'post' AND post_status = 'publish'
-			LIMIT 1
-	";
-
-    private static $getArticleThumbnailURLQuery = "
-		SELECT wp_posts.guid as ThumbnailURL
-			FROM wp_posts
-			INNER JOIN wp_postmeta
-				ON wp_posts.ID = wp_postmeta.meta_value
-			WHERE wp_postmeta.post_id = %d AND wp_posts.post_type = 'attachment' AND wp_postmeta.meta_key = '_thumbnail_id'
 			LIMIT 1
 	";
 }
