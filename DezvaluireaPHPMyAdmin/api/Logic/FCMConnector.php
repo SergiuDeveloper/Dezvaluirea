@@ -61,10 +61,16 @@ class FCMConnector {
             "message" => $notificationObject
         ];
 
+        $androidNotificationDataObject = [
+            "priority" => "high"
+        ];
+
         $fcmNotificationObject = [
             "to"           => self::$FCMNotificationTarget,
             "notification" => $notificationObject,
-            "data"         => $extraNotificationDataObject
+            "data"         => $extraNotificationDataObject,
+            "priority"     => "high",
+            "android"      => $androidNotificationDataObject
         ];
 
         $curlObject = curl_init();
