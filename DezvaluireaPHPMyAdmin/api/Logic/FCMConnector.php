@@ -20,24 +20,22 @@ class FCMConnector {
         }
 
         foreach ($notificationPostIDs as $notificationPostID) {
-            $getArticleQueryToExecute = sprintf(self::$getArticleQuery, $notificationPostID);
-
-            $dbSecondaryStatement = $databaseConnection->prepare($getArticleQueryToExecute);
+            $dbSecondaryStatement = $databaseConnection->prepare(self::$getArticleQuery);
+            $dbSecondaryStatement->bindValue(1, $notificationPostID, PDO::PARAM_INT);
             $dbSecondaryStatement->execute();
 
             $dbArticle = $dbSecondaryStatement->fetch(PDO::FETCH_ASSOC);
             extract($dbArticle);
 
-            $deleteFCMNotificationPostIDQueryToExecute = sprintf(self::$deleteFCMNotificationPostIDQuery, $notificationPostID);
-
-            $dbTertiaryStatement = $databaseConnection->prepare($deleteFCMNotificationPostIDQueryToExecute);
+            $dbTertiaryStatement = $databaseConnection->prepare(self::$deleteFCMNotificationPostIDQuery);
+            $dbTertiaryStatement->bindValue(1, $notificationPostID, PDO::PARAM_INT);
             $dbTertiaryStatement->execute();
 
             self::SendNotification($Title, $Content);
         }
     }
 
-    public static function SendNotification($notificationTitle, $notificationMessage) {
+    private static function SendNotification($notificationTitle, $notificationMessage) {
         if (strlen($notificationTitle) > self::$FCMNotificationTitleSizeLimit) {
             $notificationTitle = substr($notificationTitle, 0, self::$FCMNotificationTitleSizeLimit);
             $notificationTitle = sprintf("%s...", $notificationTitle);
@@ -94,13 +92,13 @@ class FCMConnector {
 
     private static $deleteFCMNotificationPostIDQuery = "
         DELETE FROM FCM_Notifications_Queue
-            WHERE PostID = %d
+            WHERE WP_POSTS_ID = ?
     ";
 
     private static $getArticleQuery = "
 		SELECT post_title as Title, post_content as Content
 			FROM wp_posts
-			WHERE ID = %d AND post_type = 'post' AND post_status = 'publish'
+			WHERE ID = ? AND post_type = 'post' AND post_status = 'publish'
 			LIMIT 1
 	";
 }
